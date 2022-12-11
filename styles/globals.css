@@ -18,6 +18,27 @@ a {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.mui-style-12i7wg6-MuiPaper-root-MuiDrawer-paper{
+  background-color: #0162B4;  
+}
+
+body::-webkit-scrollbar {
+  width: 12px !important;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: orange !important;        /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: blue !important;    /* color of the scroll thumb */
+  border-radius: 20px !important;       /* roundness of the scroll thumb */
+  border: 3px solid orange !important;  /* creates padding around scroll thumb */ 
+}
+
+.apexcharts-toolbar{
+  display: none !important;
+}
 
 
 @media (prefers-color-scheme: dark) {
