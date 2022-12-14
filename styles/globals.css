@@ -1,9 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Poppins', sans-serif !important;
+
+}
+.fontDiv span{
+  font-family: 'Poppins', sans-serif !important; 
 }
 
 a {
@@ -18,25 +23,32 @@ a {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.mui-style-12i7wg6-MuiPaper-root-MuiDrawer-paper{
-  background-color: #0162B4;  
-}
+
+/* .scrollable-element {
+  scrollbar-color: red yellow !important;
+} */
+
 
 body::-webkit-scrollbar {
-  width: 12px !important;               /* width of the entire scrollbar */
+  width: 12px !important;
+  /* width of the entire scrollbar */
 }
 
 body::-webkit-scrollbar-track {
-  background: orange !important;        /* color of the tracking area */
+  background: orange !important;
+  /* color of the tracking area */
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: blue !important;    /* color of the scroll thumb */
-  border-radius: 20px !important;       /* roundness of the scroll thumb */
-  border: 3px solid orange !important;  /* creates padding around scroll thumb */ 
+  background-color: blue !important;
+  /* color of the scroll thumb */
+  border-radius: 20px !important;
+  /* roundness of the scroll thumb */
+  border: 3px solid orange !important;
+  /* creates padding around scroll thumb */
 }
 
-.apexcharts-toolbar{
+.apexcharts-toolbar {
   display: none !important;
 }
 
@@ -45,6 +57,7 @@ body::-webkit-scrollbar-thumb {
   html {
     color-scheme: dark;
   }
+
   body {
     color: white;
     background: black;

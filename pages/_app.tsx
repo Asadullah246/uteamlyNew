@@ -7,7 +7,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
 import theme from '../src/theme'; 
-import createEmotionCache from '../src/createEmotionCache';
+import createEmotionCache from '../src/createEmotionCache'; 
+import 'react-multi-carousel/lib/styles.css';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();

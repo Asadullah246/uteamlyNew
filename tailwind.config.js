@@ -9,8 +9,10 @@ module.exports = {
       colors: {
         transparent: 'transparent',
         current: 'currentColor',
-        primary:'#0162B4',
-        secondary:'#0F87E4' 
+        primary:'#014275',
+        secondary:'#0F87E4',  
+        third:"#33B804",
+        fourth:"#B90310"
         
       }, 
 
