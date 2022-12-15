@@ -9,6 +9,7 @@ body {
 }
 .fontDiv span{
   font-family: 'Poppins', sans-serif !important; 
+  font-weight: 500; 
 }
 
 a {
@@ -19,6 +20,10 @@ a {
 * {
   box-sizing: border-box;
 }
+
+#chart div div svg path {
+  fill:rgba(#014275, #056DC0, #0F86E3, 0.5) !important ;  
+} 
 
 @tailwind base;
 @tailwind components;

@@ -16,17 +16,24 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import logo from "../../assets/images/logo.png"
-import dashboard from "../../assets/images/dashboard (5).svg"
-import booking from "../../assets/images/booking.svg"
 import setting from "../../assets/images/setting.svg"
 import styles from "../../styles/Owner.module.css"
-
-
 import Image from 'next/image';
 import OwnerDashboard from './owner-dashboard';
 import Booking from './Booking';
 import ClockIn from './ClockIn';
 import TimeSheet from './TimeSheet';
+import avatar from "../../assets/images/avatar.png"
+import dashboard from "../../assets/images/dashboard (5).svg"
+import booking from "../../assets/images/booking.svg"
+import time from "../../assets/images/time.svg"
+import googleDoc from "../../assets/images/googleDoc.svg"
+import partnership from "../../assets/images/partnership.svg"
+import video from "../../assets/images/video.svg"
+import care from "../../assets/images/care.svg"
+import email from "../../assets/images/email.svg"
+import help from "../../assets/images/help.svg"
+// import booking from "../../assets/images/booking.svg"
 
 interface Props {
     /**
@@ -40,7 +47,6 @@ interface Props {
 
 // get window dimension 
 
-// Hook
 function useWindowSize() {
     // Initialize state with undefined width/height so server and client renders match
     // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
@@ -88,9 +94,11 @@ const Index = (props: Props) => {
 
 
     // console.log(size);
-    const drawerWidth = width >= 1200 ? 300 : width >= 1024 ? 300 : width >= 768 ? 250 : width >= 640 ? 230 : 200;
+    const drawerWidth = width >= 1200 ? 300 : width >= 1024 ? 250 : width >= 768 ? 230 : width >= 640 ? 230 : 200;
 
     const drawerList = ["Dashboard", "Booking", "Clock in", "Time Sheet", "On Boarding", "Training", "Forms", "Updates", "Message", "Help Center"]
+
+    const picList = [dashboard, booking, time, googleDoc, partnership, video, googleDoc, care, email, help]
 
     const url = (id: number) => {
         const newValue = drawerList[id]
@@ -101,7 +109,7 @@ const Index = (props: Props) => {
     // drawer 
     const drawer = (
         <div className='ml-4 md:ml-8 lg:ml-10 relative h-screen'>
-            <div className={`text-white h-[85vh] overflow-auto ${styles.scrollbar }`}>  
+            <div className={`text-white h-[85vh] overflow-auto ${styles.scrollbar}`}>
                 {/* <Toolbar />
             <Divider /> */}
                 <List>
@@ -110,13 +118,13 @@ const Index = (props: Props) => {
                     </ListItem>
                     {drawerList.map((text, index) => (
                         <ListItem key={text} disablePadding onClick={() => { url(index) }}  >
-                            <ListItemButton className='px-0 '>
+                            <ListItemButton className='px-0 py-[5px]'>
                                 {/* <ListItemIcon>
                                 {index % 2 === 0 ? dashboard : <MailIcon />}   
                                 
                             </ListItemIcon> */}
                                 <div className={drawerList[index] == value ? "" : "opacity-50"}>
-                                    <Image src={booking} alt="" className=' mr-2' />
+                                    <Image src={picList[index]} alt="" className=' mr-3' />
                                 </div>
 
                                 <ListItemText style={{ fontFamily: 'Poppins, sans-serif !important' }} className={drawerList[index] == value ? "fontDiv" : "fontDiv opacity-50"} primary={text} />
@@ -128,10 +136,10 @@ const Index = (props: Props) => {
 
             </div>
             <div className='absolute bottom-5 bg-[#39698F] p-1 rounded'>
-            <Image src={setting} alt=""  /> 
+                <Image src={setting} alt="" />
 
             </div>
-            
+
 
         </div>
     );
@@ -161,35 +169,42 @@ const Index = (props: Props) => {
         <div>
             {/* sidebar  */}
 
-            <Box sx={{ display: 'flex' }}>
+            <Box sx={{ display: 'flex', overflow:"hidden" }}>
                 <CssBaseline />
                 <AppBar
                     position="fixed"
+                    
                     sx={{
-                        width: { sm: `calc(100% - ${drawerWidth}px)` },
-                        ml: { sm: `${drawerWidth}px` },
-                        display: { xs: 'block', sm: 'none' },
+                        width: { md: `calc(100% - ${drawerWidth}px)` },
+                        // height: "40px !important",
+                        ml: { md: `${drawerWidth}px` },
+                        display: { xs: 'block', md: 'none' },
                     }}
                 >
-                    <Toolbar>
+                    <Toolbar className={styles.appbar}> 
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"
                             edge="start"
                             onClick={handleDrawerToggle}
-                            sx={{ mr: 2, display: { sm: 'none' } }}
+                            sx={{ mr: 2, display: { md: 'none' } }}
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" noWrap component="div">
-                            Responsive drawer
-                        </Typography>
+                        {/* <Typography style={{textAlign:"center"}} variant="h6" noWrap component="div">
+                            {value} 
+                        </Typography> */}
+                        <p className='w-full text-center text-base'>{value}</p>
+                        <div>
+                            <Image src={avatar} alt="avatar" />
+                        </div>
+
                     </Toolbar>
                 </AppBar>
                 <Box
                     className='relative'
                     component="nav"
-                    sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                    sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
                     aria-label="mailbox folders"
 
                 >
@@ -203,7 +218,7 @@ const Index = (props: Props) => {
                             keepMounted: true, // Better open performance on mobile.
                         }}
                         sx={{
-                            display: { xs: 'block', sm: 'none' },
+                            display: { xs: 'block', md: 'none' },
                             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: "#014275" },
                         }}
                     >
@@ -213,7 +228,7 @@ const Index = (props: Props) => {
                         variant="permanent"
 
                         sx={{
-                            display: { xs: 'none', sm: 'block' },
+                            display: { xs: 'none', md: 'block' },
                             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: "#014275" },
                         }}
                         open
@@ -224,10 +239,15 @@ const Index = (props: Props) => {
                 </Box>
                 <Box
                     component="main"
-                    sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+                    sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}
+                    className="px-1 md:px-4 lg:px-6" 
                 >
+                    <div className={`md:mx-4 lg:mx-6 ${width<=900 && "mt-20"}`}> 
+                        {renderSwitch(value)}
 
-                    {renderSwitch(value)}
+                    </div>
+
+
 
 
                 </Box>

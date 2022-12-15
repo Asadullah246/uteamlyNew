@@ -1,19 +1,29 @@
-.scrollbar{
-    /* background-color: red !important; 
+.scrollbar {
+  /* background-color: red !important; 
     color: red !important; */
 
 }
 
 .scrollbar::-webkit-scrollbar {
-    width: 0.4em; 
-  }
-   
-  .scrollbar::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  }
-   
-  .scrollbar::-webkit-scrollbar-thumb { 
-    border-radius: 20px !important;
-    background-color: #26A0FC;
-    /* outline: 1px solid yellow ;   */
-  } 
+  width: 0.4em;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 20px !important;
+  background-color: #26A0FC;
+  /* outline: 1px solid yellow ;   */
+}
+
+.appbar {
+  height: 60px !important;
+
+
+}
+.timeCarousel .react-multiple-carousel__arrow--right,
+.timeCarousel .react-multiple-carousel__arrow--left{
+/* display: none !important; */
+}
