@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() { 
@@ -21,14 +22,11 @@ export default function Home() {
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          
-        </div>
+        <Link href="/customer" className='text-primary font-bold'> customer</Link> 
+        <Link href="/owner" className='text-primary font-bold'> owner</Link>
+        <Link href="/employee" className='text-primary font-bold'> employee</Link>
+        <Link href="/login" className='text-primary font-bold'> Login</Link>
+        <Link href="/signup" className='text-primary font-bold'> Sign up</Link>
       </main>
 
       <footer className={styles.footer}>

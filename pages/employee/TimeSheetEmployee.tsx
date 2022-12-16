@@ -1,3 +1,4 @@
+
 import { Box, Tab, Tabs } from '@mui/material';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
@@ -62,7 +63,7 @@ function useWindowSize() {
 
 
 
-const TimeSheet = () => {
+const TimeSheetEmployee = () => {
 
     const [value, setValue] = useState("Work Hours");
     const [dateValue, setDateValue] = useState(-3)
@@ -110,7 +111,7 @@ const TimeSheet = () => {
                                             <td className='border-y-2 py-3 break-all px-2 text-xs md:text-sm lg:text-base '>13/2/2020</td>
                                             <td className='border-y-2 py-3 break-all px-2 text-xs md:text-sm lg:text-base '>14/2/2020</td>
                                             <td className='border-y-2 py-3 break-words px-2 text-xs md:text-sm lg:text-base '>1  hours</td>
-                                            <td className='border-y-2 text-[0.7em] md:text-[1em]  py-3'>Dinesh Chugtai</td>
+                                            <td className='border-y-2   py-3'>Dinesh Chugtai</td>
 
                                         </tr>
                                     )
@@ -128,41 +129,41 @@ const TimeSheet = () => {
             case "Paid Hours":
                 return <>
                 <table className='w-full border-separate border-spacing-y-2 table-auto'>
-                        <thead>
-                            <tr className=''>
-                                <th className='text-start pl-2 break-words px-2 text-xs md:text-sm lg:text-base '>Task Name</th>
-                                <th className='text-start break-words px-2 text-xs md:text-sm lg:text-base '>Start Date</th>
-                                <th className='text-start break-words px-2 text-xs md:text-sm lg:text-base '>Duo date</th>
-                                <th className='text-start break-words px-2 text-xs md:text-sm lg:text-base '>Over Time</th>
-                                <th className='text-start break-words px-2 text-xs md:text-sm lg:text-base '>Status</th>
-                            </tr>
+                    <thead>
+                        <tr className=''>
+                            <th className='text-start pl-2 break-words px-2 text-xs md:text-sm lg:text-base '>Task Name</th>
+                            <th className='text-start break-words px-2 text-xs md:text-sm lg:text-base '>Start Date</th>
+                            <th className='text-start break-words px-2 text-xs md:text-sm lg:text-base '>Duo date</th>
+                            <th className='text-start break-words px-2 text-xs md:text-sm lg:text-base '>Over Time</th>
+                            <th className='text-start break-words px-2 text-xs md:text-sm lg:text-base '>Status</th>
+                        </tr>
 
-                        </thead>
-                        <tbody>
+                    </thead>
+                    <tbody>
 
-                            {
-                                [...Array(4)].map((d, index) => {
-                                    return (
-                                        <tr key={index + 1} className='rounded border shadow-lg '>
-                                            <td className='border-y-2 pl-2 rounded-tl-lg rounded-bl-lg py-3 text-left break-words px-2 text-xs md:text-sm lg:text-base '>Pop Bug Fix</td>
-                                            <td className='border-y-2 py-3 break-all px-2 text-xs md:text-sm lg:text-base '>13/2/2020</td>
-                                            <td className='border-y-2 py-3 break-all px-2 text-xs md:text-sm lg:text-base '>14/2/2020</td>
-                                            <td className='border-y-2 py-3 break-words px-2 text-xs md:text-sm lg:text-base '>1  hours</td>
-                                            <td className='border-y-2 text-[0.7em] md:text-[1em] text-[#33B804] py-3 font-[500]'>Paid</td> 
-                                         
-                                        </tr> 
-                                    )
-                                })
-                            }
+                        {
+                            [...Array(4)].map((d, index) => {
+                                return (
+                                    <tr key={index + 1} className='rounded border shadow-lg '>
+                                        <td className='border-y-2 pl-2 rounded-tl-lg rounded-bl-lg py-3 text-left break-words px-2 text-xs md:text-sm lg:text-base '>Pop Bug Fix</td>
+                                        <td className='border-y-2 py-3 break-all px-2 text-xs md:text-sm lg:text-base '>13/2/2020</td>
+                                        <td className='border-y-2 py-3 break-all px-2 text-xs md:text-sm lg:text-base '>14/2/2020</td>
+                                        <td className='border-y-2 py-3 break-words px-2 text-xs md:text-sm lg:text-base '>1  hours</td>
+                                        <td className='border-y-2 text-[#33B804]  py-3'>Paid</td>
 
-
+                                    </tr>
+                                )
+                            })
+                        }
 
 
-                        </tbody>
 
 
-                    </table>
-                    </>;
+                    </tbody>
+
+
+                </table>
+            </>;;
 
         }
     }
@@ -302,4 +303,4 @@ const TimeSheet = () => {
     );
 };
 
-export default TimeSheet;
+export default TimeSheetEmployee;

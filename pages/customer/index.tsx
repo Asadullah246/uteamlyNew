@@ -19,10 +19,6 @@ import logo from "../../assets/images/logo.png"
 import settingImg from "../../assets/images/setting.svg"
 import styles from "../../styles/Owner.module.css"
 import Image from 'next/image';
-import OwnerDashboard from './owner-dashboard';
-import Booking from './Booking';
-import ClockIn from './ClockIn';
-import TimeSheet from './TimeSheet';
 import avatar from "../../assets/images/avatar.png"
 import dashboard from "../../assets/images/dashboard (5).svg"
 import booking from "../../assets/images/booking.svg"
@@ -33,15 +29,15 @@ import video from "../../assets/images/video.svg"
 import care from "../../assets/images/care.svg"
 import email from "../../assets/images/email.svg"
 import help from "../../assets/images/help.svg"
-import Onboarding from './Onboarding';
-import Training from './Training';
-import Forms from './Forms';
-import Message from './Message';
-import Updates from './Updates';
-import HelpCenter from './HelpCenter';
-import Setting from './Setting';
-import { Router } from 'next/router';
-import Link from 'next/link';
+import CustomerDashboard from './CustomerDashboard';
+import BookingCustomer from './BookingCustomer';
+import EmployeeCustomer from './EmployeeCustomer';
+import MessageCustomer from './MessageCustomer';
+import DocumentCustomer from './DocumentCustomer';
+import ClockInCustomer from './ClockInCustomer';
+import SettingCustomer from './SettingCustomer';
+
+
 // import booking from "../../assets/images/booking.svg"
 
 interface Props {
@@ -100,29 +96,24 @@ const Index = (props: Props) => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [value, setValue] = useState("Dashboard")
     const { height, width } = useWindowSize();
-    const { pathname } = Router;
 
-    // useEffect(()=>{
-    //     if(value=="On Boarding")
-    //     Router.push('/onboarding') 
-    // },[value]) 
+    const setting = () => {
+      
+        setValue("setting") 
+    }
 
 
     // console.log(size);
     const drawerWidth = width >= 1200 ? 300 : width >= 1024 ? 250 : width >= 768 ? 230 : width >= 640 ? 230 : 200;
 
-    const drawerList = ["Dashboard", "Booking", "Clock in", "Time Sheet", "On Boarding", "Training", "Forms", "Updates", "Message", "Help Center"]
+    const drawerList = ["Dashboard", "Booking", "Employee" ,"Message","Document", "Clock In" ]
 
     const picList = [dashboard, booking, time, googleDoc, partnership, video, googleDoc, care, email, help]
 
     const url = (id: number) => {
         const newValue = drawerList[id]
-        console.log(newValue);
+        // console.log(newValue);
         setValue(newValue)
-    }
-    const setting = () => {
-
-        setValue("setting")
     }
 
     // drawer 
@@ -145,15 +136,8 @@ const Index = (props: Props) => {
                                 <div className={drawerList[index] == value ? "" : "opacity-50"}>
                                     <Image src={picList[index]} alt="" className=' mr-3' />
                                 </div>
-                                {
-                                    text == "On Boarding" ?
-                                        <Link style={{opacity:"0.5"}} href="/onboarding"> 
-                                            On Boarding 
-                                        </Link>:
-                                        <ListItemText style={{ fontFamily: 'Poppins, sans-serif !important' }} className={drawerList[index] == value ? "fontDiv" : "fontDiv opacity-50"} primary={text} />
-                                }
 
-                                 
+                                <ListItemText style={{ fontFamily: 'Poppins, sans-serif !important' }} className={drawerList[index] == value ? "fontDiv" : "fontDiv opacity-50"} primary={text} />
                             </ListItemButton>
                         </ListItem>
                     ))}
@@ -161,10 +145,12 @@ const Index = (props: Props) => {
 
 
             </div>
+           
             <div onClick={setting} className='absolute bottom-5 bg-[#39698F] p-1 rounded cursor-pointer'>
-                <Image src={settingImg} alt="" />
+                <Image src={settingImg} alt="" />    
 
             </div>
+
 
 
         </div>
@@ -179,30 +165,20 @@ const Index = (props: Props) => {
     const renderSwitch = (param: any) => {
         switch (param) {
             case "Dashboard":
-                return <OwnerDashboard />;
+                return <CustomerDashboard />; 
             case "Booking":
-                return <Booking />;
-            case "Clock in":
-                return <ClockIn />;
-            case "Time Sheet":
-                return <TimeSheet />;
-            // case "On Boarding":
-
-            //     return ; 
-
-            case "Training":
-                return <Training />;
-            case "Forms":
-                return <Forms />;
+                return <BookingCustomer />; 
+            case "Employee":
+                return <EmployeeCustomer />; 
+            case "Document":
+                return <DocumentCustomer />; 
+                case "Clock In":
+                return <ClockInCustomer />;  
             case "Message":
-                return <Message />;
-            case "Updates":
-                return <Updates />;
-            case "Help Center":
-                return <HelpCenter />;
+                return <MessageCustomer/>;   
             case "setting":
-                return <Setting />;
-
+                return <SettingCustomer/>;    
+            
 
 
         }
@@ -212,11 +188,11 @@ const Index = (props: Props) => {
         <div>
             {/* sidebar  */}
 
-            <Box sx={{ display: 'flex', overflow: "" }}>
+            <Box sx={{ display: 'flex', overflow:"" }}>
                 <CssBaseline />
                 <AppBar
                     position="fixed"
-
+                    
                     sx={{
                         width: { md: `calc(100% - ${drawerWidth}px)` },
                         // height: "40px !important",
@@ -224,7 +200,7 @@ const Index = (props: Props) => {
                         display: { xs: 'block', md: 'none' },
                     }}
                 >
-                    <Toolbar className={styles.appbar}>
+                    <Toolbar className={styles.appbar}> 
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"
@@ -283,9 +259,9 @@ const Index = (props: Props) => {
                 <Box
                     component="main"
                     sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}
-                    className="px-1 md:px-4 lg:px-6"
+                    className="px-1 md:px-4 lg:px-6" 
                 >
-                    <div className={`md:mx-4 lg:mx-6 ${width <= 900 && "mt-20"}`}>
+                    <div className={`md:mx-4 lg:mx-6 ${width<=900 && "mt-20"}`}> 
                         {renderSwitch(value)}
 
                     </div>

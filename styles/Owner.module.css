@@ -25,5 +25,5 @@
 }
 .timeCarousel .react-multiple-carousel__arrow--right,
 .timeCarousel .react-multiple-carousel__arrow--left{
-/* display: none !important; */
+display: none !important;
 }
