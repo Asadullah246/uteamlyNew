@@ -1,5 +1,5 @@
 import '../styles/globals.css' 
-
+import { SessionProvider } from "next-auth/react"; 
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
@@ -17,7 +17,9 @@ export default function MyApp(props:any) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return ( 
-    <CacheProvider value={emotionCache}>
+
+    <SessionProvider>
+      <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
@@ -27,6 +29,9 @@ export default function MyApp(props:any) {
         <Component {...pageProps} />
       </ThemeProvider>
     </CacheProvider>
+   
+  </SessionProvider>
+    
   );
 }
 

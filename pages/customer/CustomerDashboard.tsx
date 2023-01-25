@@ -9,6 +9,9 @@ import notification from "../../assets/images/notification.svg"
 import arrowDown from "../../assets/images/arrowDown.svg"
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { signOut, useSession } from "next-auth/react";
+import { getProviders, getSession, signIn } from "next-auth/react"
+
 
 import dynamic from 'next/dynamic'
 // import Table from '../../components/table';
@@ -51,7 +54,7 @@ function useWindowSize() {
 }
 
 
-const CustomerDashboard = () => {
+const CustomerDashboard = () => { 
     const [chartData, setChartData] = useState({
 
         series: [{
@@ -80,6 +83,22 @@ const CustomerDashboard = () => {
 
     })
     const { height, width } = useWindowSize();
+    const [employees, setEmployees]=useState([])
+    const { data: session } = useSession();
+
+    useEffect(()=>{
+        fetch('http://localhost:3000/api/employee')
+        .then(res=>res.json())
+            .then(data=>{
+                setEmployees(data.employees)
+            })
+    },[])
+
+    const signout=()=>{
+        signOut() 
+
+    }
+
     return (
         <>
 
@@ -103,6 +122,7 @@ const CustomerDashboard = () => {
                         <h5 className='text-lg text-[#0F87E4] font-semibold mb-4 md:mb-0'>Welcome Back, DInesh</h5>
                        
                     </div>
+                    <button onClick={signout}>sign out</button>
 
 
                 </section>
@@ -159,15 +179,15 @@ const CustomerDashboard = () => {
                             <button className='bg-primary text-white py-1 px-4 rounded text-xs'>View all</button>
                         </div>
                        {
-                        [...Array(5)].map((d, index)=>{
+                        employees?.map((em, index)=>{
                             return(
                               <div key={index}>
                                   <div  className='flex justify-between items-center my-3'>
                                 <Image src={employee} alt="" className='w-[1.3em] md:w-[2.2em] h-auto' />
-                                <p className=' text-[0.7em] md:text-[1em]'>Minerva Bannet</p>
-                                <p className=' text-[0.7em] md:text-[1em]'>9182</p>
+                                <p className=' text-[0.7em] md:text-[1em]'>{em.name}</p>
+                                <p className=' text-[0.7em] md:text-[1em]'>{em.account_id}</p>
                                 <p className='text-[#0F87E4] text-[0.7em] md:text-[1em] cursor-pointer'>Edit</p>
-                                <p className='text-[#0F87E4] text-[0.7em] md:text-[1em] cursor-pointer'>View</p> 
+                                <p className='text-[#0F87E4] text-[0.7em] md:text-[1em] cursor-pointer' >View</p>  
     
                             </div>
                             <hr  className='w-full'/> 
@@ -191,4 +211,34 @@ const CustomerDashboard = () => {
     );
 };
 
+
+export async function getServerSideProps(context:any) {
+    const { req } = context;
+    const session = await getSession({ req });
+    const providers = await getProviders()
+  
+    // if (! session) {
+    //   return {
+    //     redirect: { destination: "../api/auth/[...nextauth].tsx" },   
+    //   };
+    // }
+  
+    return {
+      props: {
+        providers: await providers(context),
+        csrfToken: await csrfToken(context),
+      },
+    };
+  }
+
+
+
+
+
+
+
+
+
+
 export default CustomerDashboard;
+

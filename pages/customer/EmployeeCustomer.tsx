@@ -62,11 +62,20 @@ function useWindowSize() {
     return windowSize;
 }
 
-const EmployeeCustomer = () => {
+const EmployeeCustomer = () => { 
     const [value, setValue] = useState("Employees")
     const { height, width } = useWindowSize();
-
     const [open, setOpen] = React.useState(false);
+    const [employees, setEmployees]=useState([])
+
+    useEffect(()=>{
+        fetch('http://localhost:3000/api/employee')
+        .then(res=>res.json())
+            .then(data=>{
+                setEmployees(data.employees)
+            })
+    },[])
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -97,7 +106,7 @@ const EmployeeCustomer = () => {
                         <tbody>
 
                             {
-                                [...Array(4)].map((d, index) => {
+                                employees?.map((em, index) => { 
                                     return (
                                         <tr key={index + 1} className='rounded border shadow-lg '>
                                             <td className='border-y-2 pl-2 rounded-tl-lg rounded-bl-lg py-3 text-left break-words px-2 text-xs md:text-sm lg:text-base '>
@@ -106,15 +115,15 @@ const EmployeeCustomer = () => {
                                                 <Checkbox {...label} />
                                                 <div className='flex items-center justify-start ml-0 md:ml-6 '>
                                                    
-                                                    <small >8454</small>
+                                                    <small >{em.account_id}</small>
                                                 </div>
                                             </div>
                                         </td>
                                                 </td>
-                                            <td className='border-y-2 py-3 break-all px-2 text-xs md:text-sm lg:text-base '>Jack Hood</td>
-                                            <td className='border-y-2 py-3 break-all px-2 text-xs md:text-sm lg:text-base '>Manager</td>
-                                            <td className='border-y-2 py-3 break-words px-2 text-xs md:text-sm lg:text-base '>0900-87621231</td>
-                                            <td className='border-y-2 break-all text-xs md:text-sm lg:text-base  py-3'>jackhood@abc.com</td>
+                                            <td className='border-y-2 py-3 break-all px-2 text-xs md:text-sm lg:text-base '>{em.name}</td>
+                                            <td className='border-y-2 py-3 break-all px-2 text-xs md:text-sm lg:text-base '>{em.role}</td>
+                                            <td className='border-y-2 py-3 break-words px-2 text-xs md:text-sm lg:text-base '>{em.phone_no}</td>
+                                            <td className='border-y-2 break-all text-xs md:text-sm lg:text-base  py-3'>{em.email}</td> 
                                          
                                         </tr> 
                                     )
@@ -287,5 +296,23 @@ const EmployeeCustomer = () => {
         </>
     );
 };
+
+// export async function getStaticProps() {
+//     const res = await fetch('http://localhost:3000/api/employee')
+//     const employees = await res.json() 
+   
+  
+//     return {
+//       props: {
+//         employees,
+//       },
+//       // Next.js will attempt to re-generate the page:
+//       // - When a request comes in
+//       // - At most once every 10 seconds
+//       revalidate: 10, // In seconds
+//     }
+//   }
+
+
 
 export default EmployeeCustomer; 

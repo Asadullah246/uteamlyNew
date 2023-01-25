@@ -19,6 +19,19 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import { Box, Typography } from '@mui/material';
 
+import { GetServerSideProps, NextPage } from "next";
+import axios from "axios";
+import fs from "fs/promises";
+import path from "path";
+import Link from "next/link";
+
+import getConfig from 'next/config'
+
+interface Props {
+    dirs: string[];
+}
+
+
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -27,10 +40,10 @@ const style = {
     width: 400,
     bgcolor: 'background.paper',
     // border: '2px solid #000',
-    borderRadius:"10px", 
+    borderRadius: "10px",
     boxShadow: 24,
-    p:4,
-    
+    p: 4,
+
 };
 
 
@@ -69,17 +82,38 @@ function useWindowSize() {
 }
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
-const Forms = () => { 
+const Forms: NextPage<Props> = ({ dirs,thepath }) => { 
     const { height, width } = useWindowSize();
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    return (
+
+    const [uploading, setUploading] = useState(false);
+    const [selectedImage, setSelectedImage] = useState("");
+    const [selectedFile, setSelectedFile] = useState<File>();
+
+    const handleUpload = async () => {
+        setUploading(true);
+        try {
+            if (!selectedFile) return;
+            const formData = new FormData();
+            formData.append("myImage", selectedFile);
+            const { data } = await axios.post("/api/image", formData);
+            console.log(data);
+        } catch (error: any) {
+            console.log(error.response?.data);
+        }
+        setUploading(false);
+    };
+    console.log("dir", dirs); 
+    console.log("path", thepath);  
+
+    return ( 
         <div>
 
-            
-             {/* <Button onClick={handleOpen}>Open modal</Button> */}
-             <Modal
+
+            {/* <Button onClick={handleOpen}>Open modal</Button> */}
+            <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 open={open}
@@ -92,15 +126,15 @@ const Forms = () => {
             >
                 <Fade in={open}>
                     <Box sx={style} className="w-[90%] md:w-[450px] ">
-                       <div className='w-full md:w-3/4 mx-auto'>
-                       <Typography id="transition-modal-title" variant="p" component="p" style={{color:"#0F87E4", textAlign:"center", fontWeight:"600", marginBottom:"15px"}}> 
-                       Signature 
-                        </Typography>
-                       {/* <input type="text" placeholder='Task Name' name="" id="" className='border-2 rounded-3xl px-3 py-1 w-full mb-4' /> */}
-                      <textarea name="" id=""  className='w-full h-[170px] mb-6' style={{border:"0.5px solid rgba(0, 0, 0, 0.7)",borderRadius:"11px"}} ></textarea> 
-                       <button className='text-white bg-primary rounded-3xl w-full py-2' onClick={handleClose}>Create</button>     
-                       </div>
-                      
+                        <div className='w-full md:w-3/4 mx-auto'>
+                            <Typography id="transition-modal-title" variant="p" component="p" style={{ color: "#0F87E4", textAlign: "center", fontWeight: "600", marginBottom: "15px" }}>
+                                Signature
+                            </Typography>
+                            {/* <input type="text" placeholder='Task Name' name="" id="" className='border-2 rounded-3xl px-3 py-1 w-full mb-4' /> */}
+                            <textarea name="" id="" className='w-full h-[170px] mb-6' style={{ border: "0.5px solid rgba(0, 0, 0, 0.7)", borderRadius: "11px" }} ></textarea>
+                            <button className='text-white bg-primary rounded-3xl w-full py-2' onClick={handleClose}>Create</button>
+                        </div>
+
                     </Box>
                 </Fade>
             </Modal>
@@ -132,9 +166,51 @@ const Forms = () => {
                 </div>
             </section>
 
+            {/* temporary  */}
+
+            <div className="max-w-4xl mx-auto p-20 space-y-6">
+                <label>
+                    <input
+                        type="file"
+                        hidden
+                        onChange={({ target }) => {
+                            if (target.files) {
+                                const file = target.files[0];
+                                setSelectedImage(URL.createObjectURL(file));
+                                setSelectedFile(file);
+                            }
+                        }}
+                    />
+                    <div className="w-40 aspect-video rounded flex items-center justify-center border-2 border-dashed cursor-pointer">
+                        {selectedImage ? (
+                            <img src={selectedImage} alt="" />
+                        ) : (
+                            <span>Select Image</span>
+                        )}
+                    </div>
+                </label>
+                <button
+                    onClick={handleUpload}
+                    disabled={uploading}
+                    style={{ opacity: uploading ? ".5" : "1" }}
+                    className="bg-red-600 p-3 w-32 text-center rounded text-white"
+                >
+                    {uploading ? "Uploading.." : "Upload"}
+                </button>
+                <div className="mt-20 flex flex-col space-y-3"> 
+                    {dirs?.map((item) => (
+                        <Link key={item} href={"/images/" + item}>
+                            dkjfksdljf 
+                        </Link>
+                    ))}
+                </div>
+            </div>
+
+            {/* temporary  */}
+
             <section className='mt-6 flex justify-between items-center'>
                 <button className='bg-primary py-2 px-12 text-white rounded my-3 font-[500] whitespace-nowrap'
-               onClick={handleOpen} >Add New</button> 
+                    onClick={handleOpen} >Add New</button>
                 <button className='h-fit p-2 bg-primary rounded-md'><Image src={setting2} alt="" /></button>
             </section>
 
@@ -195,5 +271,28 @@ const Forms = () => {
         </div>
     );
 };
+
+
+
+export const serverPath = (staticFilePath: string) => {
+  const thepath= path.join(getConfig().serverRuntimeConfig.PROJECT_ROOT, staticFilePath)
+  return {thepath:{thepath:thepath}}   
+}
+
+
+
+export const getServerSideProps: GetServerSideProps = async () => {
+    const props = { dirs: [] };
+    try {
+        const dirs = await fs.readdir(path.join(process.cwd(), "/public/images"));  
+        props.dirs = dirs as any;
+        return { props };
+    } catch (error) {
+        return { props };
+    }
+};
+
+
+
 
 export default Forms; 

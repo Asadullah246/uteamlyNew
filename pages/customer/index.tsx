@@ -36,6 +36,11 @@ import MessageCustomer from './MessageCustomer';
 import DocumentCustomer from './DocumentCustomer';
 import ClockInCustomer from './ClockInCustomer';
 import SettingCustomer from './SettingCustomer';
+// import { useRouter } from "next/dist/client/router";
+// import { useRouter } from 'next/router' 
+import Router from "next/router";
+import { signOut, useSession } from "next-auth/react";
+import { getProviders, getSession, signIn } from "next-auth/react"
 
 
 // import booking from "../../assets/images/booking.svg"
@@ -86,27 +91,30 @@ function useWindowSize() {
 
 
 
-
-
-
-
 const Index = (props: Props) => {
     const { window } = props;
 
-    const [mobileOpen, setMobileOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false); 
     const [value, setValue] = useState("Dashboard")
     const { height, width } = useWindowSize();
 
-    const setting = () => {
-      
-        setValue("setting") 
+    const { data: session } = useSession();
+    // const router = useRouter();
+
+    console.log("session", session);
+   
+
+
+    const setting = () => { 
+
+        setValue("setting")
     }
 
 
     // console.log(size);
     const drawerWidth = width >= 1200 ? 300 : width >= 1024 ? 250 : width >= 768 ? 230 : width >= 640 ? 230 : 200;
 
-    const drawerList = ["Dashboard", "Booking", "Employee" ,"Message","Document", "Clock In" ]
+    const drawerList = ["Dashboard", "Booking", "Employee", "Message", "Document", "Clock In"]
 
     const picList = [dashboard, booking, time, googleDoc, partnership, video, googleDoc, care, email, help]
 
@@ -145,9 +153,9 @@ const Index = (props: Props) => {
 
 
             </div>
-           
+
             <div onClick={setting} className='absolute bottom-5 bg-[#39698F] p-1 rounded cursor-pointer'>
-                <Image src={settingImg} alt="" />    
+                <Image src={settingImg} alt="" />
 
             </div>
 
@@ -165,20 +173,20 @@ const Index = (props: Props) => {
     const renderSwitch = (param: any) => {
         switch (param) {
             case "Dashboard":
-                return <CustomerDashboard />; 
+                return <CustomerDashboard />;
             case "Booking":
-                return <BookingCustomer />; 
+                return <BookingCustomer />;
             case "Employee":
-                return <EmployeeCustomer />; 
+                return <EmployeeCustomer />;
             case "Document":
-                return <DocumentCustomer />; 
-                case "Clock In":
-                return <ClockInCustomer />;  
+                return <DocumentCustomer />;
+            case "Clock In":
+                return <ClockInCustomer />;
             case "Message":
-                return <MessageCustomer/>;   
+                return <MessageCustomer />;
             case "setting":
-                return <SettingCustomer/>;    
-            
+                return <SettingCustomer />;
+
 
 
         }
@@ -188,11 +196,11 @@ const Index = (props: Props) => {
         <div>
             {/* sidebar  */}
 
-            <Box sx={{ display: 'flex', overflow:"" }}>
+            <Box sx={{ display: 'flex', overflow: "" }}>
                 <CssBaseline />
                 <AppBar
                     position="fixed"
-                    
+
                     sx={{
                         width: { md: `calc(100% - ${drawerWidth}px)` },
                         // height: "40px !important",
@@ -200,7 +208,7 @@ const Index = (props: Props) => {
                         display: { xs: 'block', md: 'none' },
                     }}
                 >
-                    <Toolbar className={styles.appbar}> 
+                    <Toolbar className={styles.appbar}>
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"
@@ -259,9 +267,9 @@ const Index = (props: Props) => {
                 <Box
                     component="main"
                     sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}
-                    className="px-1 md:px-4 lg:px-6" 
+                    className="px-1 md:px-4 lg:px-6"
                 >
-                    <div className={`md:mx-4 lg:mx-6 ${width<=900 && "mt-20"}`}> 
+                    <div className={`md:mx-4 lg:mx-6 ${width <= 900 && "mt-20"}`}>
                         {renderSwitch(value)}
 
                     </div>
@@ -276,5 +284,25 @@ const Index = (props: Props) => {
         </div>
     );
 };
+
+export async function getServerSideProps(context:any) {
+    const { req } = context;
+    const session = await getSession({ req });
+    const providers = await getProviders()
+  
+    // if (! session) {
+    //   return {
+    //     redirect: { destination: "/pages/api/auth/[...nextauth].tsx" },       
+    //   };
+    // }
+  
+    return {
+      props: {
+        providers: await providers(context),
+        csrfToken: await csrfToken(context),
+      },
+    };
+  }
+
 
 export default Index;
